@@ -45,7 +45,7 @@ The debloat itself also helps, since ads, home-page video takeovers and sponsore
 
 ## Limitations
 
-- The Spotify installer still comes from SpotX's mirror (`loadspot.amd64fox1.workers.dev`), because Spotify doesn't publish older builds. The signature check means a bad file is refused, not run. When the mirror is overloaded it returns HTTP 503 or junk data; retry later.
+- The Spotify installer still comes from SpotX's mirror (`loadspot.amd64fox1.workers.dev`), because Spotify doesn't publish older builds. The signature check means a bad file is refused, not run. When the mirror is overloaded it returns HTTP 503, junk data or a truncated file; retry later, or download the installer yourself (the mirror supports resuming with HTTP range requests) and pass it with `-InstallerPath <file>`. A local installer goes through the same signature and hash checks.
 - The signature and hash checks run when the script downloads Spotify itself (a fresh install, or replacing an outdated version). If a supported Spotify is already installed, the script patches it in place without re-checking it. Uninstall Spotify first if you want every check to run.
 - Only English installer messages are bundled.
 - With updates blocked, Spotify's built-in Chromium stops getting security fixes. Update deliberately: bump `$latest_full`, refresh `resources/patches/patches.json` from a newer upstream commit you've reviewed, update `PinnedCommits` and `KnownBinaryHashes`, then re-run.

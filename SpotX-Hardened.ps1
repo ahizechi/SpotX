@@ -20,6 +20,8 @@
       7. Default Spotify version pinned to a full build string, so no version manifest is fetched.
       8. New -hardware_acceleration_off option (ui.hardware_acceleration=false), checked against the
          installed Spotify build first. -DisableStartup no longer appends duplicate prefs lines.
+      9. New -InstallerPath option to use an already-downloaded installer when the mirror is down.
+         It goes through the same signature and hash checks as a downloaded one.
 #>
 [CmdletBinding()]
 param
@@ -39,6 +41,11 @@ param
     [Alias('dm')]
     [ValidateSet('curl', 'webclient')]
     [string]$download_method,
+
+    # HARDENED: use an already-downloaded installer instead of the mirror. The file still has to pass
+    # the Spotify AB signature check (and the pinned hashes for the default build) before it is used.
+    [Parameter(HelpMessage = 'Path to a local spotify_installer-<version>-<arch>.exe to use instead of downloading.')]
+    [string]$InstallerPath,
 
     [Parameter(HelpMessage = "Change recommended Spotify version. Example: 1.2.88 or 1.2.88.485.g1012a6e0.")]
     [Alias("v")]
@@ -1739,6 +1746,18 @@ function downloadSp([string]$DownloadFolder) {
     $web_Url = "$downloadBaseUrl/spotify_installer-$downloadVersion-$arch.exe"
     $local_Url = Join-Path $DownloadFolder 'SpotifySetup.exe'
     $web_name_file = "SpotifySetup.exe"
+
+    # HARDENED: local installer instead of the mirror; verified later by Expand-SpotifyInstaller
+    if ($InstallerPath) {
+        if (-not (Test-Path -LiteralPath $InstallerPath -PathType Leaf)) {
+            Write-Warning "Installer not found: $InstallerPath"
+            Stop-Script
+        }
+        Write-Host "Using local installer: $InstallerPath"
+        Copy-Item -LiteralPath $InstallerPath -Destination $local_Url -Force
+        return
+    }
+
     try {
         $selectedDownloadMethod = Resolve-SpotifyDownloadMethod -ForcedMethod $download_method
     }
