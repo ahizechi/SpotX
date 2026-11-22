@@ -1,6 +1,6 @@
 <#
-    SpotX-Hardened
-    ==============
+    SpotX
+    =====
     A hardened fork of SpotX run.ps1 (https://github.com/SpotX-Official/SpotX),
     based on upstream commit d85794fdc446feb2c66b62379278767bcf87dda3 (run.ps1 SHA256
     2b18131a37c0c9945174517326cd46ee63475567fdd0da946cdb3f57001fe2e5).
@@ -65,7 +65,7 @@ param
     [Parameter(HelpMessage = 'Add a Microsoft Defender exclusion for the Spotify install folder only (opt-in).')]
     [switch]$defender_exclusions_on,
 
-    [Parameter(HelpMessage = 'Deprecated in SpotX-Hardened: Defender exclusions are already off by default.')]
+    [Parameter(HelpMessage = 'Deprecated in this fork: Defender exclusions are already off by default.')]
     [switch]$defender_exclusions_off,
 
     [Parameter(HelpMessage = "Developer mode activation.")]
@@ -154,7 +154,7 @@ param
     [Parameter(HelpMessage = 'Do not create desktop shortcut.')]
     [switch]$no_shortcut,
 
-    [Parameter(HelpMessage = 'No effect in SpotX-Hardened: the version-reporting script is never injected.')]
+    [Parameter(HelpMessage = 'No effect in this fork: the version-reporting script is never injected.')]
     [switch]$sendversion_off,
 
     [Parameter(HelpMessage = 'Static color for lyrics.')]
@@ -189,7 +189,7 @@ $idbox_goofy = $null
 # HARDENED: local resources and immutable upstream commits
 $ResourceRoot = Join-Path $PSScriptRoot 'resources'
 if (-not (Test-Path -LiteralPath $ResourceRoot -PathType Container)) {
-    Write-Host "SpotX-Hardened: resources folder not found next to the script: $ResourceRoot" -ForegroundColor Red
+    Write-Host "SpotX: resources folder not found next to the script: $ResourceRoot" -ForegroundColor Red
     if (-not $no_pause) { Pause }
     exit 1
 }
@@ -666,7 +666,7 @@ function Get-Link {
 
     # HARDENED: immutable commit URL instead of the moving 'main' branch / github.io mirror
     $commit = $script:PinnedCommits["$Owner/$Repository"]
-    if (-not $commit) { throw "SpotX-Hardened: no pinned commit for $Owner/$Repository" }
+    if (-not $commit) { throw "SpotX: no pinned commit for $Owner/$Repository" }
     return "https://raw.githubusercontent.com/$Owner/$Repository/$commit" + $endlink
 }
 

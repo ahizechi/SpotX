@@ -1,4 +1,4 @@
-# SpotX-Hardened
+# SpotX
 
 A hardened fork of [SpotX](https://github.com/SpotX-Official/SpotX). It debloats the Spotify desktop client and blocks its auto-updates, the same as SpotX, but removes the parts of SpotX that weren't needed for that.
 
@@ -13,7 +13,7 @@ To change options, edit the `set param=` line in `Install.bat`.
 
 | What | Source |
 |---|---|
-| `SpotX-Hardened.ps1` | upstream `run.ps1` @ `d85794fdc446feb2c66b62379278767bcf87dda3` (SHA256 `2b18131a…fe2e5`), then edited; search for `HARDENED` |
+| `SpotX.ps1` | upstream `run.ps1` @ `d85794fdc446feb2c66b62379278767bcf87dda3` (SHA256 `2b18131a…fe2e5`), then edited; search for `HARDENED` |
 | `resources/patches/patches.json` | upstream @ same commit, unmodified |
 | `resources/lang/en.ps1` | upstream `scripts/installer-lang/en.ps1` @ same commit, unmodified |
 | `resources/js-helper/sectionBlock.js` | upstream @ same commit, unmodified |
@@ -21,7 +21,7 @@ To change options, edit the `set param=` line in `Install.bat`.
 
 ## What changed vs. upstream SpotX
 
-| Upstream behaviour | SpotX-Hardened |
+| Upstream behaviour | This fork |
 |---|---|
 | `.bat` downloads `run.ps1` from the `main` branch and pipes it to `iex` on every run | Runs the local reviewed script with `-File` |
 | Downloads language file at runtime and runs it with `Invoke-Expression` | Loads `resources/lang/en.ps1` locally |
